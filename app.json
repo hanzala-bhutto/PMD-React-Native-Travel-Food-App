@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#06B2BE"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -21,10 +21,38 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.hanzala_k200277.TravFood",
+      "config": {
+      "googleMaps": {
+        "apiKey": "AIzaSyDrTZMslf-4X5Tv69h4cel4cQyXdZXItJw"
       }
+    }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d36a82df-d94b-4702-8b34-cc2c98a099a8"
+      }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow Explore Place to use your location."
+        }
+      ]
+        ,
+       [ "expo-image-picker",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to open the camera",
+
+          "//": "Disables the microphone permission",
+          "microphonePermission": false
+        }
+      ]
+    ]
   }
 }
