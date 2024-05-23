@@ -59,6 +59,28 @@ const Profile = () => {
         }        
     }
 
+    const openGallery = async () => {
+        // Ask the user for the permission to access the gallery
+        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        
+        if (permissionResult.granted === false) {
+          alert("You've refused to allow this app to access your gallery!");
+          return;
+        }
+        
+        const result = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            quality: 0.5,
+        });
+
+        // Explore the result
+        // console.log(result);
+
+        if(!result.canceled){
+            setImage({uri:result.assets[0].uri});
+            saveImage({uri:result.assets[0].uri});
+        }
+    }
 
 
     return (
@@ -74,9 +96,17 @@ const Profile = () => {
                     </View>
             </View>
 
+            <View className="flex flex-row justify-evenly">
+
             <TouchableOpacity className="flex flex-row justify-center" onPress={openCamera}>
-                        <Text className="w-2/4 bg-primary p-2 text-white text-center text-xl rounded-md">Change Avatar</Text>
+                        <Text className=" bg-primary p-2 text-white text-center text-xl rounded-md">Capture Avatar</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity className="flex flex-row justify-center" onPress={openGallery}>
+                        <Text className=" bg-primary p-2 text-white text-center text-xl rounded-md">Upload Avatar</Text>
+            </TouchableOpacity>
+
+            </View>
 
             <View className="flex flex-col justify-center gap-4 px-4">
                 <View>
