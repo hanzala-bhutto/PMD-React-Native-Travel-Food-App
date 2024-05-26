@@ -64,7 +64,7 @@ const Restaurant_List = ({navigation}) => {
                 <>
                   {mainData?.map((data, i) => (
                     <ItemCard
-                      key={i}
+                      key={'restaurant'+i}
                       imageSrc={
                         data?.photo?.images?.medium?.url
                           ? data?.photo?.images?.medium?.url

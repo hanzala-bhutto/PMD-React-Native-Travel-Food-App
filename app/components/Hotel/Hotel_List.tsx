@@ -64,7 +64,7 @@ const Hotel_List = ({navigation}) => {
                 <>
                   {mainData?.map((data, i) => (
                     <ItemCard
-                      key={i}
+                      key={'hotel'+i}
                       imageSrc={
                         data?.photo?.images?.medium?.url
                           ? data?.photo?.images?.medium?.url
