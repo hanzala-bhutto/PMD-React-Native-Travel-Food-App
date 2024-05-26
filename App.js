@@ -8,6 +8,7 @@ import {useEffect } from 'react';
 
 import {  useFonts, Inter_200ExtraLight, Inter_300Light, Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, Inter_800ExtraBold,  Inter_900Black } from '@expo-google-fonts/inter';
 import { ProfileContextProvider } from './app/context/profilecontext';
+import { FavouritesContextProvider } from './app/context/favouritecontext';
 
 // Prevent native splash screen from autohiding before App component declaration
 SplashScreen.preventAutoHideAsync()
@@ -42,9 +43,11 @@ export default function App() {
     <SafeAreaView style={styles.container}>
 
       <ProfileContextProvider>
+      <FavouritesContextProvider>
         <NavigationContainer>
           <TabNavigation />
         </NavigationContainer>
+      </FavouritesContextProvider>
       </ProfileContextProvider>
     </SafeAreaView>
   );

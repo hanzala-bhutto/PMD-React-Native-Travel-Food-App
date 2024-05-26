@@ -6,14 +6,18 @@ import {
     Image,
     TouchableOpacity,
   } from "react-native";
-  import React, { useLayoutEffect } from "react";
+  import React, { useEffect, useLayoutEffect, useState } from "react";
   import { useNavigation } from "@react-navigation/native";
   import { FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
   import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
+import { useFavouritesContext } from "../../context/favouritecontext";
   
   const ItemScreen = ({ route }) => {
     const navigation = useNavigation();
-  
+    const {favourites,addFavourite,removeFavourite} = useFavouritesContext();
+    const [isFavourite, setIsFavourite] = useState(false);
+
+
     const data = route?.params?.param;
     useLayoutEffect(() => {
       navigation.setOptions({
@@ -55,6 +59,18 @@ import {
       navigation.navigate('map', { param: data });
     };
 
+    useEffect(() => {
+      setIsFavourite(favourites.some(fav => fav.latitude === data.latitude));
+    }, [favourites,data.latitude]);
+
+    
+    const handleFavouriteToggle = () => {
+      if (isFavourite) {
+        removeFavourite(data);
+      } else {
+        addFavourite(data);
+      }
+    };
 
     return (
       <SafeAreaView className="flex-1 bg-white relative">
@@ -77,10 +93,16 @@ import {
               >
                 <FontAwesome5 name="chevron-left" size={24} color="#06B2BE" />
               </TouchableOpacity>
-  
-              <TouchableOpacity className="w-10 h-10 rounded-md items-center justify-center bg-[#06B2BE]">
-                <FontAwesome5 name="heartbeat" size={24} color="#fff" />
-              </TouchableOpacity>
+
+              <TouchableOpacity
+          key={'touch'+data.latitude}
+          className={`w-10 h-10 rounded-md items-center justify-center bg-[#06B2BE]`}
+          onPress={handleFavouriteToggle}
+        >
+          <FontAwesome5 name="heartbeat" size={24} color={isFavourite ? '#fff' : 'black'} />
+        </TouchableOpacity>
+
+
             </View>
   
             <View className="absolute flex-row inset-x-0 bottom-5 justify-between px-6">

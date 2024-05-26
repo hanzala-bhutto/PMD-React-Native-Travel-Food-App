@@ -7,6 +7,7 @@ import Profile from '../screens/Profile';
 import Attraction from '../screens/Attraction';
 import Colors from '../shared/Colors';
 import Maps from '../screens/Maps';
+import Favourites from '../screens/Favourite';
 
 const Tab = createBottomTabNavigator();
 
@@ -61,6 +62,20 @@ const TabNavigation = () => {
                 ),
                 }}
             />
+
+            <Tab.Screen
+                name="favorite"
+                component={Favourites}
+                options={{
+                headerShown: false,
+                title: 'Favorites',
+                tabBarActiveTintColor:Colors.PRIMARY,
+                tabBarIcon: ({color, size}) => (
+                    <MaterialIcons name="favorite" color={color} size={size} />
+                ),
+                }}
+            />
+
             <Tab.Screen
                 name="profile"
                 component={Profile}
