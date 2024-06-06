@@ -16,7 +16,8 @@ import {NotFound} from "../../../assets";
 const Restaurant_List = ({navigation}) => {
     const [mainData, setMainData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
+    const [filteredData, setFilteredData] = useState([]);
+    const [search, setSearch] = useState(''); 
 
     const options = {
         method: 'GET',
@@ -31,16 +32,15 @@ const Restaurant_List = ({navigation}) => {
         setIsLoading(true);
 
         setMainData(restuarantData.data);
+        setFilteredData(restuarantData.data);
 
         setIsLoading(false);
 
-        // fetch('https://api-football-v1.p.rapidapi.com/v3/leagues', options)
+        // fetch('https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng?latitude=51.1657&longitude=10.4515', options)
         // .then((response: any) => response.json())
         // .then((data: any) => {
-        //   if (data.response.length > 300){
-        //     data.response.length -= Math.floor(data.response.length * 0.75);
-        //   }
         //   setMainData(data)
+        //   setFilteredData(data);
         // })
         // .catch(err => console.log(err))
         // .finally(() => {
@@ -49,9 +49,23 @@ const Restaurant_List = ({navigation}) => {
 
     }, []);
 
+    const updateSearch = (se) => {
+      const e  = se;
+      setSearch(e);
+  
+      const filtered = mainData.filter((s) => {
+        return (
+          s?.name?.toLowerCase().includes(e.toLowerCase())
+        )
+      })
+  
+      setFilteredData(filtered);
+  
+    }
+    
     return (
-        <ScrollView className="flex-1 bg-white p-4">
-            <Header/>
+        <ScrollView className="flex-1 bg-white p-4" contentContainerStyle={{paddingBottom:30}}>
+            <Header search={search} updateSearch={updateSearch}/>
             {isLoading ? (
                 <View className=" flex-1 items-center justify-center">
                 <ActivityIndicator size="large" color="#0B646B" />
@@ -60,9 +74,9 @@ const Restaurant_List = ({navigation}) => {
             <>
             <Text style={{ fontFamily: 'Inter_500Medium'}} className="text-2xl px-4 mt-8">Explore Germany Restuarants</Text>
             <View className="mt-2 flex flex-row items-center justify-evenly flex-wrap">
-              {mainData?.length > 0 ? (
+              {filteredData?.length > 0 ? (
                 <>
-                  {mainData?.map((data, i) => (
+                  {filteredData?.map((data, i) => (
                     <ItemCard
                       key={'restaurant'+i}
                       imageSrc={

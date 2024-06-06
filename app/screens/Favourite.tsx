@@ -12,11 +12,14 @@ const Favourites = () => {
 
   const [favouritesList, setFavouritesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [filteredData, setFilteredData] = useState([]);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     if (favourites){
       // console.log(favourites)
       setFavouritesList(favourites);
+      setFilteredData(favourites);
     }
   }, [favourites]);
 
@@ -25,9 +28,23 @@ const Favourites = () => {
     // console.log(favouritesList);
   }, [favouritesList]);
 
+  const updateSearch = (se) => {
+    const e  = se;
+    setSearch(e);
+
+    const filtered = favouritesList.filter((s) => {
+      return (
+        s?.name?.toLowerCase().includes(e.toLowerCase())
+      )
+    })
+
+    setFilteredData(filtered);
+
+  }
+
   return (
-    <ScrollView className="flex-1 bg-white p-4">
-    <Header />
+    <ScrollView className="flex-1 bg-white p-4" contentContainerStyle={{paddingBottom:30}}>
+    <Header search={search} updateSearch={updateSearch}/>
     {isLoading ? (
                 <View className=" flex-1 items-center justify-center">
                 <ActivityIndicator size="large" color="#0B646B" />
@@ -35,9 +52,9 @@ const Favourites = () => {
             ) : 
             <>
           <View className="mt-2 flex flex-row items-center justify-evenly flex-wrap">
-              {favouritesList?.length > 0 ? (
+              {filteredData?.length > 0 ? (
                 <>
-                  {favouritesList?.map((data, i) => (
+                  {filteredData?.map((data, i) => (
                     <ItemCard
                       key={'fav'+i}
                       imageSrc={
