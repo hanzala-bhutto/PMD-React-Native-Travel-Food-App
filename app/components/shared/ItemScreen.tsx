@@ -74,7 +74,7 @@ import { useFavouritesContext } from "../../context/favouritecontext";
 
     return (
       <SafeAreaView className="flex-1 bg-white relative">
-        <ScrollView className="flex-1 px-4 py-6">
+        <ScrollView className="flex-1 px-4 py-6" contentContainerStyle={{paddingBottom:30}}>
 
           <View className="relative bg-white shadow-lg">
             <Image
@@ -250,11 +250,11 @@ import { useFavouritesContext } from "../../context/favouritecontext";
 
 
             <TouchableOpacity className="mt-4 px-4 py-4 rounded-lg bg-[#06B2BE] items-center justify-center mb-12"
-            onPress={()=> goToMap(data)}
+            // onPress={()=> goToMap(data)}
             >
               <Text
                 className="text-3xl font-semibold uppercase tracking-wider text-gray-100">
-                Open In Map
+                Map View
               </Text>
             </TouchableOpacity>
           </View>

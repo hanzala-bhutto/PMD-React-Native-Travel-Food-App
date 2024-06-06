@@ -13,7 +13,7 @@ const ItemCard = ({ imageSrc, title, location, data }) => {
   const {favourites,addFavourite,removeFavourite} = useFavouritesContext();
 
   useEffect(() => {
-    setIsFavourite(favourites.some(fav => fav.latitude === data.latitude));
+    setIsFavourite(favourites?.some(fav => fav.latitude === data.latitude));
   }, [favourites,data.latitude]);
 
   const handleFavouriteToggle = () => {
