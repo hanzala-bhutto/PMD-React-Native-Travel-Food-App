@@ -29,7 +29,7 @@ const MapScreen = ({route}) => {
       </View>
    
       <GoogleMapViewFull placeList={placeList}/>
-      <View style={{position:'absolute',zIndex:20,bottom:0}}>
+      <View style={{position:'absolute',zIndex:20,bottom:20}}>
         <BusinessList placeList={placeList} />
       </View>
      

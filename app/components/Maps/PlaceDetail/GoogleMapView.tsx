@@ -4,6 +4,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { UserLocationContext } from "./../../../context/UserLocationContext";
 import PlaceMarker from "../shared/PlaceMarker";
 import Colors from "./../../../shared/Colors";
+import MapViewDirections from "react-native-maps-directions";
 
 export default function GoogleMapView({placeList}) {
   const [mapRegion, setmapRegion] = useState([]);
@@ -20,6 +21,7 @@ export default function GoogleMapView({placeList}) {
             longitudeDelta: 0.0421,
         })
     }
+    // console.log(placeList)
   },[location])
  
 
@@ -46,7 +48,16 @@ export default function GoogleMapView({placeList}) {
             {placeList.map((item,index)=>index<=4&&(
                 <PlaceMarker item={item} key={index} />
             ))}
-           
+            {placeList.length>0&&<MapViewDirections
+                origin={mapRegion}
+                destination={{latitude:placeList[0]?.geometry?.location?.lat, longitude:placeList[0]?.geometry?.location?.lng}}
+                apikey="AIzaSyA3FzKFHiA7bUcmOaubinG6wqCZt8Dw7Yk"
+                strokeWidth={4}
+                strokeColor={Colors.PRIMARY}
+            />}
+
+
+
         </MapView>:null} 
         
       </View>

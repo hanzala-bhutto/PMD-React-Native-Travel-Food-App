@@ -1,9 +1,20 @@
 import { View, Text, Image, StyleSheet, TextInput, Dimensions } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Colors from '../../shared/Colors';
+import { useProfileContext } from '../../context/profilecontext';
 
-const Header = () => {
-  return (
+const Header = ({search,updateSearch}) => {
+
+    const [profilePhoto, setProfilePhoto] = useState('');
+    const {profileImage} = useProfileContext();
+
+    useEffect(()=> {
+        if (profileImage){
+            setProfilePhoto(profileImage);
+        }
+    },[profileImage])
+
+    return (
     <View style={{display:'flex',flexDirection:'row',
     justifyContent:'space-evenly',gap:10,
     alignItems:'center'
@@ -12,11 +23,11 @@ const Header = () => {
             style={styles.logo}/>
 
         <View>
-            <TextInput placeholder='Search' 
+            <TextInput placeholder='Search' onChangeText={updateSearch} value={search}
                 style={styles.searchBar}
             />
         </View>  
-        <Image source={require('./../../../assets/user.png')} 
+        <Image source={profilePhoto ? profilePhoto : require('./../../../assets/user.png')} 
             style={styles.userImage}
         /> 
     </View>

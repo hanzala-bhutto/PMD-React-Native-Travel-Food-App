@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Dimensions } from "react-native";
 import Colors from "../../../shared/Colors";
@@ -8,9 +8,17 @@ import { TextInput } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { PROVIDER_GOOGLE } from "react-native-maps";
+import { useProfileContext } from "../../../context/profilecontext";
 export default function SearchBar({setSearchText}) {
     const [searchInput,setSearchInput]=useState();
+    const [profilePhoto, setProfilePhoto] = useState('');
+    const {profileImage} = useProfileContext();
 
+    useEffect(()=> {
+        if (profileImage){
+            setProfilePhoto(profileImage);
+        }
+    },[profileImage])
     return (
     <View>
       <LinearGradient
@@ -29,7 +37,7 @@ export default function SearchBar({setSearchText}) {
             Discover
           </Text>
           <Image
-            source={require("./../../../../assets/user.png")}
+            source={profilePhoto ? profilePhoto : require("./../../../../assets/user.png")}
             style={{ width: 50, height: 50, borderRadius: 100 }}
           />
         </View>
