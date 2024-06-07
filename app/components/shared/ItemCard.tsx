@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useFavouritesContext } from "../../context/favouritecontext";
+import { ToastAndroid } from "react-native";
 
 const ItemCard = ({ imageSrc, title, location, data }) => {
   const navigation = useNavigation();
@@ -19,10 +20,16 @@ const ItemCard = ({ imageSrc, title, location, data }) => {
   const handleFavouriteToggle = () => {
     if (isFavourite) {
       removeFavourite(data);
+      showToast(` Removed ${title} from favourites`);
     } else {
       addFavourite(data);
+      showToast(`Added ${title} to favourites`)
     }
   };
+
+  function showToast(message) {
+    ToastAndroid.show(message, ToastAndroid.SHORT);
+  }
 
   return (
     <TouchableOpacity

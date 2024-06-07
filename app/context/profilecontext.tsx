@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createContext, useContext, useEffect, useState} from 'react';
+import { ToastAndroid } from "react-native";
 
 const ProfileContext = createContext<any | null>(null);
 const useProfileContext = () => useContext(ProfileContext);
@@ -26,11 +27,17 @@ const ProfileContextProvider = ({children}: any) => {
   const updateProfileData = (data: any) => {
     setProfileData(data);
     AsyncStorage.setItem('profile', JSON.stringify(data));
+    showToast('Profile updated successfully');
   };
 
   const updateProfileImage = (data: any) => {
     setProfileImage(data);
     AsyncStorage.setItem('profileImage', JSON.stringify(data));
+    showToast('Image updated successfully');
+  }
+
+  function showToast(message) {
+    ToastAndroid.show(message, ToastAndroid.SHORT);
   }
 
   return (

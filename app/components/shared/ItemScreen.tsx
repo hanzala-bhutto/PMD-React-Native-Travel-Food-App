@@ -11,7 +11,8 @@ import {
   import { FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
   import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useFavouritesContext } from "../../context/favouritecontext";
-  
+import { ToastAndroid } from "react-native";
+
   const ItemScreen = ({ route }) => {
     const navigation = useNavigation();
     const {favourites,addFavourite,removeFavourite} = useFavouritesContext();
@@ -67,10 +68,17 @@ import { useFavouritesContext } from "../../context/favouritecontext";
     const handleFavouriteToggle = () => {
       if (isFavourite) {
         removeFavourite(data);
+        showToast(` Removed ${data?.name} from favourites`);
+
       } else {
         addFavourite(data);
+        showToast(`Added ${data?.name} to favourites`)
       }
     };
+
+    function showToast(message) {
+      ToastAndroid.show(message, ToastAndroid.SHORT);
+    }
 
     return (
       <SafeAreaView className="flex-1 bg-white relative">
@@ -213,6 +221,7 @@ import { useFavouritesContext } from "../../context/favouritecontext";
             )}
 
                 {/* Map */}
+                {data?.latitude && data?.longitude && 
                 <View className="rounded-3xl h-[220px] w-full overflow-hidden flex items-center justify-center relative">
 
                   <MapView
@@ -247,6 +256,7 @@ import { useFavouritesContext } from "../../context/favouritecontext";
                      </MapView>
 
                     </View>
+            }
 
 
             <TouchableOpacity className="mt-4 px-4 py-4 rounded-lg bg-[#06B2BE] items-center justify-center mb-12"
@@ -257,6 +267,7 @@ import { useFavouritesContext } from "../../context/favouritecontext";
                 Map View
               </Text>
             </TouchableOpacity>
+
           </View>
 
         </ScrollView>

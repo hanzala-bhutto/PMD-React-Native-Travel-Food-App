@@ -53,7 +53,7 @@ export default function SearchBar({setSearchText}) {
             console.log(details?.geometry?.viewport);
           }}
           query={{
-            key: "AIzaSyDrTZMslf-4X5Tv69h4cel4cQyXdZXItJw",
+            key: "AIzaSyA3FzKFHiA7bUcmOaubinG6wqCZt8Dw7Yk",
             language: "en",
           }}
           textInputProps={{
