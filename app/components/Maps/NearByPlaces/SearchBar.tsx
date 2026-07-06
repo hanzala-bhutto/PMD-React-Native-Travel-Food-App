@@ -53,7 +53,7 @@ export default function SearchBar({setSearchText}) {
             console.log(details?.geometry?.viewport);
           }}
           query={{
-            key: "AIzaSyA3FzKFHiA7bUcmOaubinG6wqCZt8Dw7Yk",
+            key: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
             language: "en",
           }}
           textInputProps={{

@@ -42,7 +42,7 @@ PMD-React-Native-Travel-Food-App/
 │   └── screens/             # Different screen components of the app
 ├── .gitignore               # Git ignore file for unnecessary files
 ├── App.js                   # Main entry point for the app
-├── app.json                 # App configuration for Expo
+├── app.config.js            # App configuration for Expo (reads secrets from .env)
 ├── babel.config.js          # Babel configuration for compiling code
 ├── package.json             # Node.js package dependencies and scripts
 ├── tailwind.config.js       # Tailwind CSS configuration
@@ -71,6 +71,12 @@ Ensure you have the following installed on your system:
 - Install dependencies:
   ```bash
   npm install # or using yarn
+  ```
+
+- Copy `.env.example` to `.env` and fill in your own Google Maps API key:
+  ```bash
+  cp .env.example .env
+  ```
 
 
 ### Usage
