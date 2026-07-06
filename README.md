@@ -15,7 +15,7 @@
 
 ## Introduction
 
-PMD React Native Travel Food App is a mobile application developed using React Native for discovering travel destinations and food spots. The app provides users with a seamless experience of browsing places to travel and where to eat in those destinations.
+TravFood is a mobile application developed using React Native for discovering travel destinations and food spots. The app provides users with a seamless experience of browsing places to travel and where to eat in those destinations.
 
 ## Tech Stack
 
