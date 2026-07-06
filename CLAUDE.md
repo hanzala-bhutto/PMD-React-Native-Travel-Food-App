@@ -44,16 +44,20 @@ The app calls the Google Places API directly from `app/services/GlobalApi.ts`. T
 
 There is no test framework, no test files, and no `.github/workflows` in this repo as of this writing. Any change that touches navigation, maps, async-storage, or image-picker should be manually smoke-tested with `expo start`, clicking through all six tabs, since there is nothing automated to catch regressions.
 
-## Current initiative: Dependabot vulnerability remediation
+## Dependabot vulnerability remediation (largely resolved)
 
-As of 2026-07-06, GitHub Dependabot has 64 open alerts on this repo (3 critical, 34 high, 20 medium, 7 low). Nearly all of them are transitive dependencies pulled in by Expo's and React Native's own build tooling (`@expo/cli`, `@react-native-community/cli`, `metro`, `@react-native/dev-middleware`), for example `tar`, `node-forge`, `ws`, `fast-xml-parser`, `@xmldom/xmldom`, `form-data`, `js-yaml`, `lodash`, `qs`, `minimatch`, `picomatch`. These are dev-time/build-tool exposures rather than vulnerabilities shipped inside the compiled app bundle, but they still need fixing.
+As of 2026-07-06, GitHub Dependabot had 64 open alerts on this repo. Nearly all were transitive dependencies pulled in by Expo's and React Native's own build tooling (`@expo/cli`, `@react-native-community/cli`, `metro`, `@react-native/dev-middleware`), not packages the app imports directly. These were dev-time/build-tool exposures rather than vulnerabilities shipped inside the compiled app bundle.
 
-The fix mechanism for these transitive alerts is npm's `overrides` field in `package.json` (you cannot `npm install` a transitive dependency directly). `@babel/core` and `@babel/plugin-transform-modules-systemjs` are closer to the app's own dependency tree and are handled as a direct devDependency bump instead.
+Fixed via npm's `overrides` field in `package.json` (the standard way to force a patched version of a transitive dependency you cannot `npm install` directly), plus a direct devDependency bump for `@babel/core`. See closed issues [#1](https://github.com/hanzala-bhutto/PMD-React-Native-Travel-Food-App/issues/1) and [#2](https://github.com/hanzala-bhutto/PMD-React-Native-Travel-Food-App/issues/2), merged in PRs #4, #5, and #6.
 
-Work is tracked on the `security/dependabot-fixes` branch and its per-tier sub-branches, with GitHub issues and PRs managed via `gh` CLI (`gh issue create`, `gh pr create`). Pull the current alert list with:
+**10 alerts remain open by design**, tracked in [issue #3](https://github.com/hanzala-bhutto/PMD-React-Native-Travel-Food-App/issues/3): `tar` (7, needs 6.x -> 7.x), `uuid` (1, needs 7/8.x -> 11.x), `fast-xml-parser` (1, needs 4.x -> 5.x), and `semver` (1, only fixable by an Expo SDK 50 -> 57 major upgrade). None of these can be safely forced without testing, since the affected majors have confirmed API changes and forcing them risks breaking the Expo/Metro CLI tooling itself.
+
+**Pitfall to avoid**: when adding to `package.json`'s `overrides` block on a new branch, check whether another in-flight branch also touches `overrides`. JSON has no duplicate-key semantics, so if two branches each add their own top-level `"overrides"` key and both get merged, `JSON.parse` silently keeps only the last one, silently dropping the other branch's fixes (this happened once already, fixed in PR #6). Always merge into the single existing `overrides` object instead of adding a second one.
+
+Pull the current alert list with:
 
 ```
 gh api repos/hanzala-bhutto/PMD-React-Native-Travel-Food-App/dependabot/alerts --paginate
 ```
 
-Note: `gh` on this machine is installed at `C:\Program Files\GitHub CLI\gh.exe` and may not be on PATH in every shell; invoke it by full path if `gh` is not found. The authenticated credential is a fine-grained personal access token, which needs the "Dependabot alerts: Read-only" repository permission explicitly granted on the token itself (adding scopes via `gh auth refresh` does not work for fine-grained PATs).
+Note: `gh` on this machine is installed at `C:\Program Files\GitHub CLI\gh.exe` and may not be on PATH in every shell; invoke it by full path if `gh` is not found. The authenticated credential is a fine-grained personal access token, which needs the "Dependabot alerts: Read-only" and "Pull requests: Read and write" repository permissions explicitly granted on the token itself (adding scopes via `gh auth refresh` does not work for fine-grained PATs, and merging PRs via `gh pr merge` requires the write permission).
