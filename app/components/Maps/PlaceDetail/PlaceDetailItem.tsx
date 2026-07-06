@@ -32,7 +32,7 @@ export default function PlaceDetailItem({place}) {
               "?maxwidth=400" +
               "&photo_reference=" +
               place?.photos[0]?.photo_reference +
-              "&key=AIzaSyA3FzKFHiA7bUcmOaubinG6wqCZt8Dw7Yk",
+              "&key=" + process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
           }}
           style={{
             width: "100%",

@@ -51,7 +51,7 @@ export default function GoogleMapView({placeList}) {
             {placeList.length>0&&<MapViewDirections
                 origin={mapRegion}
                 destination={{latitude:placeList[0]?.geometry?.location?.lat, longitude:placeList[0]?.geometry?.location?.lng}}
-                apikey="AIzaSyA3FzKFHiA7bUcmOaubinG6wqCZt8Dw7Yk"
+                apikey={process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}
                 strokeWidth={4}
                 strokeColor={Colors.PRIMARY}
             />}
